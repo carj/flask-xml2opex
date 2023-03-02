@@ -1,0 +1,41 @@
+{% extends "bootstrap/base.html" %}
+{% import "wtf.html" as wtf %}
+{% import "bootstrap/fixes.html" as fixes %}
+{% import "bootstrap/utils.html" as util %}
+
+
+{# Then, inside the head block, we apply these. To not replace the header,
+   ``super()`` is used: #}
+{% block head %}
+
+{{ dropzone.load_css() }}
+{{ dropzone.style('border: 2px dashed #0087F7; margin: 10%; min-height: 400px;') }}
+
+<style>
+    .dropzone {
+        background-color: lightblue;
+    }
+    .dropzone .dz-message {
+      text-align: center;
+      margin: 2em 0;
+      font-size: 2.5em;
+   }
+</style>
+
+{{super()}}
+
+{#- Docs: http://pythonhosted.org/Flask-Bootstrap/macros.html#fixes
+   The sample application already contains the required static files. #}
+{{fixes.ie8()}}
+{%- endblock %}
+
+{# Adding our own CSS files is also done here. Check the documentation at
+   http://pythonhosted.org/Flask-Bootstrap/basic-usage.html#available-blocks
+   for an overview. #}
+{% block styles -%}
+    {{super()}}  {# do not forget to call super or Bootstrap's own stylesheets
+                    will disappear! #}
+
+
+{% endblock %}
+

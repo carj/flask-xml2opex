@@ -1,0 +1,107 @@
+{%- extends "base.html" %}
+
+{% block content %}
+
+<body>
+
+<div class="container">
+    <h1>XML Descriptive Metadata to OPEX Converter</h1>
+
+    {{ dropzone.create(action='/') }}
+
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class=flashes>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+    </div>
+
+</div>
+
+ <h2>Download your OPEX Files</h2>
+  {{
+    wtf.quick_form(form=form, action="/", method="post", form_type='horizontal', id='sub-id', button_map={'submit_button': 'primary'})
+  }}
+
+</body>
+
+
+{{ dropzone.load_js() }}
+
+{{ dropzone.config(custom_init='this.on("success", function(file) { this.emit("thumbnail", file, "static/xml.png"); });') }}
+
+{%- endblock %}
+
+
+{% block styles -%}
+{{super()}}
+
+<style>
+
+    body {
+    	font: 125% georgia, sans-serif;
+    	line-height: 1.88889;
+    	color: #555753;
+    	background: #b4e6fe;
+    	margin: 0;
+    	padding: 0;
+	}
+
+
+li {
+  background: #b4e6fe;
+  margin: 0 0 10px 0;
+}
+
+
+.form-horizontal .form-group {
+    margin-right: -15px;
+    margin-left: -15px;
+    padding-bottom: 20px;
+}
+
+ul#optional_additional_namespaces.form-control{
+    border: 0px solid #b4e6fe;
+}
+
+
+#optional_additional_namespaces {
+  background: #b4e6fe;
+}
+
+
+#loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #b4e6fe;
+  border-radius: 50%;
+  border-top: 16px solid blue;
+  border-right: 16px solid green;
+  border-bottom: 16px solid red;
+  border-left: 16px solid pink;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+</style>
+{% endblock %}
