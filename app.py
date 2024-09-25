@@ -87,7 +87,12 @@ def upload():
             print(xml_file)
             with open(path, 'r', encoding="utf-8") as md:
                 tree = xml.etree.ElementTree.parse(md)
-                dm.append(tree.getroot())
+                root = tree.getroot()
+                # prevent a new prefix "ns1" from being added to the metadata
+                # may help the metadata showing up in UX2
+                inside_namespace = root.tag.split('}')[0].strip('{')
+                xml.etree.ElementTree.register_namespace("", inside_namespace)
+                dm.append(root)
                 fd = open(xml_file, "w", encoding="utf-8")
                 fd.write(ET.tostring(element=opex_doc, encoding="UTF-8", xml_declaration=True).decode("utf-8"))
                 fd.close()
